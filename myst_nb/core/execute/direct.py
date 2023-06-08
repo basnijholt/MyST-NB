@@ -37,13 +37,19 @@ class NotebookClientDirect(NotebookClientBase):
                 + ("temporary" if self.nb_config.execution_in_temp else "local")
                 + " CWD"
             )
-            result = single_nb_execution(
-                self.notebook,
-                cwd=cwd,
-                allow_errors=self.nb_config.execution_allow_errors,
-                timeout=self.nb_config.execution_timeout,
-                meta_override=True,  # TODO still support this?
-            )
+            for _ in range(self.nb_config.execution_retries + 1):
+                try:
+                    result = single_nb_execution(
+                        self.notebook,
+                        cwd=cwd,
+                        allow_errors=self.nb_config.execution_allow_errors,
+                        timeout=self.nb_config.execution_timeout,
+                        meta_override=True,  # TODO still support this?
+                    )
+                    break
+                except Exception:
+                    self.logger.exception("Error executing notebook")
+                    continue
 
         if result.err is not None:
             if self.nb_config.execution_raise_on_error:

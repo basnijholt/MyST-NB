@@ -269,6 +269,14 @@ class NbParserConfig:
             "sections": (Section.global_lvl, Section.file_lvl, Section.execute),
         },
     )
+    execution_retries: bool = dc.field(  # TODO implement
+        default=False,
+        metadata={
+            "validator": instance_of(int),
+            "help": "Number of times to retry execution on failure",
+            "sections": (Section.global_lvl, Section.file_lvl, Section.execute),
+        },
+    )
 
     # pre-processing options
 
