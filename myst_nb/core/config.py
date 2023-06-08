@@ -270,7 +270,7 @@ class NbParserConfig:
         },
     )
     execution_retries: bool = dc.field(  # TODO implement
-        default=False,
+        default=10,
         metadata={
             "validator": instance_of(int),
             "help": "Number of times to retry execution on failure",
