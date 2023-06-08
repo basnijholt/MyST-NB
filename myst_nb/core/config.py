@@ -269,7 +269,7 @@ class NbParserConfig:
             "sections": (Section.global_lvl, Section.file_lvl, Section.execute),
         },
     )
-    execution_retries: bool = dc.field(  # TODO implement
+    execution_retries: bool = dc.field(
         default=10,
         metadata={
             "validator": instance_of(int),
